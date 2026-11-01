@@ -15,7 +15,6 @@
   --ink: var(--paper); --ink-soft:#A7A7AC; --line:#2A2A2E;
   --serif:'Fraunces',serif; --sans:'IBM Plex Sans',sans-serif; --mono:'IBM Plex Mono',monospace;
   box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
 html{scroll-padding-top:64px;}
 *{box-sizing:border-box;}
@@ -156,171 +155,274 @@ footer .inner{padding:34px 0 44px;}
 .footer-tagline{font-size:13px;font-style:italic;color:var(--turq);margin-bottom:16px;}
 .footer-bottom{font-size:12px;color:var(--ink-soft);}
 
-/* RESPONSIVE LAYOUT PATCH — preserves all existing content and visual styling */
-html, body {
+/* RESPONSIVE LAYOUT — mobile-first containment without changing the visual design */
+html,
+body {
   width: 100%;
+  max-width: 100%;
+  min-width: 320px;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-wrap: break-word;
+}
+
+#app {
+  width: 100%;
+  max-width: 100%;
   min-width: 0;
   overflow-x: clip;
 }
-body {
-  overflow-wrap: anywhere;
-}
-.wrap,
-.nav-inner,
+
+section,
+footer,
 section .inner,
 footer .inner {
+  width: 100%;
   min-width: 0;
 }
-#app,
-#app * {
+
+.wrap {
+  width: 100%;
+  max-width: 760px;
   min-width: 0;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
 }
-img, svg, video, canvas, iframe {
-  max-width: 100%;
-}
-p, li, .stat .label, .stat .sub, .work-item, .area,
-.tl-org, .tl-role, .tl-dates, .ed-item, .cta-row .q {
-  overflow-wrap: anywhere;
-  word-break: normal;
-}
+
 .nav-inner {
-  flex-wrap: wrap;
-}
-.nav-name {
-  flex: 0 1 auto;
+  width: 100%;
   min-width: 0;
 }
-.nav-links {
+
+.hero-grid {
+  width: 100%;
   min-width: 0;
-  max-width: 100%;
 }
-.hero-grid > *,
-.contact-info > *,
+
+.hero-text,
+.hero-photo,
+.contact-info,
+.contact-card,
 .contact-card .text,
 .contact-card .value {
   min-width: 0;
+  max-width: 100%;
 }
+
+.hero-text {
+  overflow-wrap: break-word;
+}
+
+.hero-photo img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+p,
+li,
+.stat .label,
+.stat .sub,
+.work-item,
+.area,
+.tl-org,
+.tl-role,
+.tl-dates,
+.ed-item,
+.cta-row .q,
+.chip {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
 .contact-card .value {
   white-space: normal;
-  overflow-wrap: anywhere;
 }
+
 .hero-ctas .btn,
 .cta-row .btn {
   max-width: 100%;
   white-space: normal;
   text-align: center;
 }
+
 .chip-list,
 .contact-tags {
   max-width: 100%;
 }
-.chip {
-  max-width: 100%;
-  overflow-wrap: anywhere;
-  white-space: normal;
-}
+
 @media (max-width: 640px) {
   .wrap {
     padding-left: 18px;
     padding-right: 18px;
   }
+
   .nav-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 8px;
     padding: 12px 18px;
-    gap: 10px;
   }
+
   .nav-name {
+    grid-column: 1;
+    min-width: 0;
     white-space: normal;
-    overflow-wrap: anywhere;
-    flex: 1 1 150px;
+    overflow-wrap: break-word;
+    font-size: clamp(13px, 3.6vw, 15px);
   }
-  .nav-links {
-    order: 3;
-    flex: 1 1 100%;
-    display: flex;
-    flex-wrap: wrap;
-    overflow: visible;
-    gap: 8px 14px;
-    padding-top: 2px;
-  }
-  .nav-links a {
-    white-space: normal;
-    max-width: 100%;
-    overflow-wrap: anywhere;
-  }
+
   .lang-toggle {
-    margin-left: auto;
+    grid-column: 2;
+    justify-self: end;
+    margin-left: 0;
   }
+
+  .nav-links {
+    grid-column: 1 / -1;
+    order: initial;
+    display: flex;
+    flex: initial;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding-top: 2px;
+    overflow: visible;
+  }
+
+  .nav-links a {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: break-word;
+    font-size: 12px;
+  }
+
   section .inner {
     padding-top: 38px;
     padding-bottom: 38px;
   }
+
   .hero .inner {
     padding-top: 38px;
     padding-bottom: 42px;
   }
+
+  .hero-grid {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 22px;
+  }
+
   .hero-text {
-    flex-basis: 100%;
+    flex: 0 1 auto;
     width: 100%;
     min-width: 0;
   }
-  .hero h1 {
-    font-size: clamp(30px, 8vw, 40px);
-    overflow-wrap: anywhere;
+
+  .hero-photo {
+    flex: 0 0 auto;
+    width: 104px;
+    max-width: 100%;
   }
+
+  .hero-photo img {
+    width: 104px;
+    height: 104px;
+  }
+
+  .hero h1 {
+    max-width: 100%;
+    font-size: clamp(30px, 8vw, 40px);
+    line-height: 1.12;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
   .hero-lede {
     font-size: 17px;
   }
+
+  .hero p {
+    font-size: 15px;
+  }
+
   .stats {
     gap: 24px 14px;
   }
+
   .area {
     padding-left: 14px;
   }
+
   .contact-info {
     flex-direction: column;
     align-items: stretch;
   }
+
   .contact-card {
     width: 100%;
     max-width: 100%;
     padding: 12px;
     gap: 10px;
   }
+
   .contact-card .value {
     font-size: 14.5px;
   }
+
   .cta-row {
     align-items: flex-start;
     gap: 10px;
   }
+
   .cta-row .q,
   .cta-row .btn {
     width: 100%;
     max-width: 100%;
   }
 }
+
 @media (max-width: 380px) {
   .wrap {
     padding-left: 14px;
     padding-right: 14px;
   }
+
   .nav-inner {
     padding-left: 14px;
     padding-right: 14px;
   }
+
   .nav-name {
     font-size: 13px;
-    flex-basis: 130px;
   }
+
   .lang-toggle button {
     padding: 5px 8px;
   }
+
   .hero h1 {
     font-size: clamp(28px, 8.5vw, 34px);
   }
+
   .stats {
     grid-template-columns: minmax(0, 1fr);
   }
+
   .contact-card .icon {
     width: 36px;
     height: 36px;
@@ -671,7 +773,7 @@ function render(lang){
 
   secCount.n = 0;
   const html = `
-  ${secOpen('home').replace('inner wrap','inner wrap hero')}
+  ${secOpen('home').replace('class="sec-a"', 'class="sec-a hero"').replace('class="sec-b"', 'class="sec-b hero"')}
     <div class="hero-grid">
       <div class="hero-text">
         <div class="hero-kicker">${t.hero.kicker.map(k=>`<span>${k}</span>`).join('')}</div>
@@ -680,7 +782,7 @@ function render(lang){
         <p>${t.hero.body}</p>
         <div class="hero-ctas">
           <a class="btn primary" href="#work">${t.hero.cta1}</a>
-          <a class="btn" href="${CV_URL}" onclick="saveCV(event)">${t.hero.cta2}</a>
+          <a class="btn" href="${CV_URL}" download="Varsik_Nerkararyan_CV.pdf" onclick="saveCV(event)">${t.hero.cta2}</a>
         </div>
       </div>
       <div class="hero-photo"><img src="${PHOTO_B64}" alt="${t.hero.name}"></div>
@@ -822,7 +924,7 @@ function render(lang){
       ${t.ctaRows.map((r,i)=>{
         const href = i===1 ? CV_URL : 'mailto:viknerkararyan@gmail.com';
         const dl = i===1 ? ' onclick="saveCV(event)"' : '';
-        return `<div class="cta-row"><span class="q">${r.q}</span><a class="btn" href="${href}"${dl}>${r.btn}</a></div>`;
+        return `<div class="cta-row"><span class="q">${r.q}</span><a class="btn" href="${href}"${i===1 ? ' download=\"Varsik_Nerkararyan_CV.pdf\"' : ''}${dl}>${r.btn}</a></div>`;
       }).join('')}
     </div>
   ${secClose}
@@ -848,30 +950,27 @@ const CV_B64_RAW = CV_URL.split(',')[1];
 
 async function saveCV(e){
   if(e) e.preventDefault();
-  try{
-    if(typeof claude !== "undefined"){
-      const downloads = await claude.use("downloads");
-      if(downloads){
-        const blob = b64ToBlob(CV_B64_RAW, "application/pdf");
-        await downloads.save({ filename: "Varsik_Nerkararyan_CV.pdf", data: blob });
-        return;
-      }
-    }
-  }catch(err){ /* fall through */ }
-  // fallback for plain web hosting: trigger a real download via a temporary link
+  let objectUrl = null;
   try{
     const blob = b64ToBlob(CV_B64_RAW, "application/pdf");
-    const blobUrl = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = blobUrl;
-    a.download = "Varsik_Nerkararyan_CV.pdf";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
-  }catch(err2){
-    // last resort: open in a new tab
-    window.open(CV_URL, "_blank");
+    objectUrl = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = objectUrl;
+    link.download = "Varsik_Nerkararyan_CV.pdf";
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    // Keep the object URL alive long enough for mobile browsers to start the download.
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 60000);
+  }catch(err){
+    if(objectUrl){
+      try{ URL.revokeObjectURL(objectUrl); }catch(cleanupError){}
+    }
+    // Last-resort fallback: open the original embedded PDF in a new tab.
+    window.open(CV_URL, "_blank", "noopener");
   }
 }
 
